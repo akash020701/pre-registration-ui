@@ -189,17 +189,36 @@ export class TimeSelectionComponent
       let filteredLangs = applicationLanguages.filter(applicationLang => 
         applicationLang == this.userPreferredLangCode
       );
+      let fullNameConcat = "";
       if (filteredLangs.length > 0) {
-        let nameValues = demographicData[this.name];
-        nameValues.forEach(nameVal => {
-          if (nameVal["language"] == this.userPreferredLangCode) {
-            nameList.fullName = nameVal["value"];
+        for (var names of this.name.split(",")) {
+          let nameValues = demographicData[names];
+          if(Array.isArray(nameValues) && nameValues != null && nameValues.length > 0) {
+            nameValues.forEach(nameVal => {
+              if (nameVal["language"] == this.userPreferredLangCode) {
+                fullNameConcat += nameVal["value"] + " ";
+              }
+            });
           }
-        });  
+        }
+        nameList.fullName = fullNameConcat;
       } else {
-        nameList.fullName =
-        demographicData[this.name][0].value;
+
+        if(Array.isArray(demographicData[this.name.split(",")[0]]) && demographicData[this.name.split(",")[0]] != null && demographicData[this.name.split(",")[0]].length > 0)
+        fullNameConcat = demographicData[this.name.split(",")[0]][0].value + " "
+
+        if(Array.isArray(demographicData[this.name.split(",")[1]]) && demographicData[this.name.split(",")[1]] != null && demographicData[this.name.split(",")[1]].length > 0)
+          fullNameConcat += demographicData[this.name.split(",")[1]][0].value + " "
+
+        if(Array.isArray(demographicData[this.name.split(",")[2]]) && demographicData[this.name.split(",")[2]] != null && demographicData[this.name.split(",")[2]].length > 0)
+          fullNameConcat += demographicData[this.name.split(",")[2]][0].value + " "
+
+        if(Array.isArray(demographicData[this.name.split(",")[3]]) && demographicData[this.name.split(",")[3]] != null && demographicData[this.name.split(",")[3]].length > 0)
+        fullNameConcat = demographicData[this.name.split(",")[3]][0].value
+
+        nameList.fullName = fullNameConcat
       }
+
       nameList.preRegId = user.request.preRegistrationId;
       nameList.status = user.request.statusCode;
       nameList.postalCode = demographicData["postalCode"];

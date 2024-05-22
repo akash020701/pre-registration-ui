@@ -340,23 +340,70 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       dataAvailableLanguages = Utils.reorderLangsForUserPreferredLang(dataAvailableLanguages, this.userPreferredLangCode);
     }
     let applicantName = "";
-    const nameField = applicantResponse["demographicMetadata"][this.name];
-    if (Array.isArray(nameField)) {
-      nameField.forEach(fld => {
+    const firstNameField = applicantResponse["demographicMetadata"][this.name.split(",")[0]];
+    const middleNameField = applicantResponse["demographicMetadata"][this.name.split(",")[1]];
+    const maidenNameField = applicantResponse["demographicMetadata"][this.name.split(",")[2]];
+    const lastNameField = applicantResponse["demographicMetadata"][this.name.split(",")[3]];
+    if (Array.isArray(firstNameField) && Array.isArray(lastNameField)) {
+      firstNameField.forEach(fld => {
         if (fld.language == this.userPreferredLangCode) {
-          applicantName = fld.value;
+          applicantName = fld.value + " ";
+        }
+      });
+      if(middleNameField != null && Array.isArray(middleNameField) && middleNameField.length > 0) {
+        middleNameField.forEach(fld => {
+          if (fld.language == this.userPreferredLangCode) {
+            applicantName += fld.value + " ";
+          }
+        });
+      }
+      if(maidenNameField != null && Array.isArray(maidenNameField) && maidenNameField.length > 0) {
+        maidenNameField.forEach(fld => {
+          if (fld.language == this.userPreferredLangCode) {
+            applicantName += fld.value + " ";
+          }
+        });
+      }
+      lastNameField.forEach(fld => {
+        if (fld.language == this.userPreferredLangCode) {
+          applicantName += fld.value;
         }
       });
       if (applicantName == "" && dataAvailableLanguages.length > 0) {
-        nameField.forEach(fld => {
+        firstNameField.forEach(fld => {
           if (fld.language == dataAvailableLanguages[0]) {
-            applicantName = fld.value;
+            applicantName = fld.value + " ";
           }
-        });  
+        });
+        if(middleNameField != null && Array.isArray(middleNameField) && middleNameField.length > 0) {
+          middleNameField.forEach(fld => {
+            if (fld.language == dataAvailableLanguages[0]) {
+              applicantName += fld.value + " ";
+            }
+          });
+        }
+        if(maidenNameField != null && Array.isArray(maidenNameField) && maidenNameField.length > 0) {
+          maidenNameField.forEach(fld => {
+            if (fld.language == dataAvailableLanguages[0]) {
+              applicantName += fld.value + " ";
+            }
+          });
+        }
+        lastNameField.forEach(fld => {
+          if (fld.language == dataAvailableLanguages[0]) {
+            applicantName += fld.value;
+          }
+        });
       }
     } else {
-      if (nameField)
-      applicantName = nameField;
+      if (firstNameField && lastNameField) {
+        applicantName = firstNameField + " ";
+        if(middleNameField)
+          applicantName += middleNameField + " "
+        if(maidenNameField)
+          applicantName += maidenNameField + " "
+        applicantName += lastNameField
+      }
       else 
       applicantName = "";
     }
@@ -863,15 +910,29 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   // }
 
   private sendNotification(prid, appDate, appDateTime)  {
-    let userDetails;    
+    let userDetails; 
+    let applicantName;   
     return new Promise((resolve, reject) => {
       this.subscriptions.push(
         this.dataStorageService.getUser(prid).subscribe((response) => {
           if (response[appConstants.RESPONSE]) {
             userDetails = response[appConstants.RESPONSE].demographicDetails.identity;
             console.log(userDetails);
+
+            if(Array.isArray(userDetails[this.name.split(",")[0]]) && userDetails[this.name.split(",")[0]] != null && userDetails[this.name.split(",")[0]].length > 0)
+            applicantName = userDetails[this.name.split(",")[0]][0].value + " "
+            
+            if(Array.isArray(userDetails[this.name.split(",")[1]]) && userDetails[this.name.split(",")[1]] != null && userDetails[this.name.split(",")[1]].length > 0)
+             applicantName  += userDetails[this.name.split(",")[1]][0].value + " "
+           
+            if(Array.isArray(userDetails[this.name.split(",")[2]]) && userDetails[this.name.split(",")[2]] != null && userDetails[this.name.split(",")[2]].length > 0)
+              applicantName  += userDetails[this.name.split(",")[2]][0].value + " "
+
+            if(Array.isArray(userDetails[this.name.split(",")[3]]) && userDetails[this.name.split(",")[3]] != null && userDetails[this.name.split(",")[3]].length > 0)
+            applicantName += userDetails[this.name.split(",")[3]][0].value
+
             const notificationDto = new NotificationDtoModel(
-              userDetails[this.name][0].value,
+              applicantName,
               prid,
               appDate,
               appDateTime,
