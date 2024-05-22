@@ -26,9 +26,12 @@
 }
 
 .form_wrapper {
-  margin: 4% 0%;
+  padding:20px 20px;
+  padding-bottom:2px;
+  height: auto;
+  margin-right: 40%;
+  margin-bottom: 30%;
   line-height: 2rem;
-  height: 64vh;
 }
 
 .form_fields_padding {
@@ -68,7 +71,7 @@ mat-form-field {
 }
 
 .pinkText {
-  color: #fe528d;
+  color: #d9034e;
 }
 
 button {
