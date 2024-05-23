@@ -344,12 +344,14 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     const middleNameField = applicantResponse["demographicMetadata"][this.name.split(",")[1]];
     const maidenNameField = applicantResponse["demographicMetadata"][this.name.split(",")[2]];
     const lastNameField = applicantResponse["demographicMetadata"][this.name.split(",")[3]];
-    if (Array.isArray(firstNameField) && Array.isArray(lastNameField)) {
-      firstNameField.forEach(fld => {
-        if (fld.language == this.userPreferredLangCode) {
+    if (Array.isArray(firstNameField) || Array.isArray(middleNameField) || Array.isArray(maidenNameField) || Array.isArray(lastNameField)) {
+      if(firstNameField != null && Array.isArray(firstNameField) && firstNameField.length > 0) {
+        firstNameField.forEach(fld => {
+         if (fld.language == this.userPreferredLangCode) {
           applicantName = fld.value + " ";
         }
       });
+    }
       if(middleNameField != null && Array.isArray(middleNameField) && middleNameField.length > 0) {
         middleNameField.forEach(fld => {
           if (fld.language == this.userPreferredLangCode) {
@@ -364,17 +366,21 @@ export class DashBoardComponent implements OnInit, OnDestroy {
           }
         });
       }
+    if(lastNameField != null && Array.isArray(lastNameField) && lastNameField.length > 0) {
       lastNameField.forEach(fld => {
         if (fld.language == this.userPreferredLangCode) {
           applicantName += fld.value;
         }
       });
+    }
       if (applicantName == "" && dataAvailableLanguages.length > 0) {
-        firstNameField.forEach(fld => {
-          if (fld.language == dataAvailableLanguages[0]) {
+        if(firstNameField != null && Array.isArray(firstNameField) && firstNameField.length > 0) {
+          firstNameField.forEach(fld => {
+            if (fld.language == dataAvailableLanguages[0]) {
             applicantName = fld.value + " ";
           }
         });
+      }
         if(middleNameField != null && Array.isArray(middleNameField) && middleNameField.length > 0) {
           middleNameField.forEach(fld => {
             if (fld.language == dataAvailableLanguages[0]) {
@@ -389,19 +395,23 @@ export class DashBoardComponent implements OnInit, OnDestroy {
             }
           });
         }
+     if(lastNameField != null && Array.isArray(lastNameField) && lastNameField.length > 0) {
         lastNameField.forEach(fld => {
           if (fld.language == dataAvailableLanguages[0]) {
             applicantName += fld.value;
           }
         });
+        }
       }
     } else {
-      if (firstNameField && lastNameField) {
+      if (firstNameField || middleNameField || maidenNameField || lastNameField ) {
+        if(firstNameField)
         applicantName = firstNameField + " ";
         if(middleNameField)
           applicantName += middleNameField + " "
         if(maidenNameField)
           applicantName += maidenNameField + " "
+        if(lastNameField)
         applicantName += lastNameField
       }
       else 
@@ -412,7 +422,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     const applicant: Applicant = {
       applicationID:
         applicantResponse[appConstants.DASHBOARD_RESPONSE_KEYS.applicant.preId],
-      name: applicantName,
+      name: applicantName.trim(),
       appointmentDateTime: applicantResponse[
         appConstants.DASHBOARD_RESPONSE_KEYS.bookingRegistrationDTO.dto
       ]
