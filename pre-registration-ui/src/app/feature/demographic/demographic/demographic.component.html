@@ -12,11 +12,11 @@
           </span>
           )
         </span>
-        <span *ngIf="!dataModification && !readOnlyMode && showChangeDataCaptureLangBtn"
+        <!-- <span *ngIf="!dataModification && !readOnlyMode && showChangeDataCaptureLangBtn"
           [ngStyle]="userPrefLanguageDir == 'ltr'? {'float': 'right'} : {'float': 'left'}">
           <button class="user__btn user__btn_change_lang" type="button"
             (click)="changeDataCaptureLanguages()">{{demographiclabels.change_data_capture_langs}}</button>
-        </span>
+        </span> -->
       </header>
       <p></p>
       <span class="readOnly" *ngIf="readOnlyMode">( {{demographiclabels.read_only_message}} )</span>
