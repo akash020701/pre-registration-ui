@@ -350,3 +350,7 @@ mat-select:focus {
 .primary-errors {
   margin-left: 5px;
 }
+
+.small-font {
+      font-size: 12px;
+    }

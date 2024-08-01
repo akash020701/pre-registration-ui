@@ -125,6 +125,7 @@ export const CONFIG_KEYS = {
   mosip_max_languages_count: 'mosip.max-languages.count',
   preregistration_contact_email: 'preregistration.contact.email',
   preregistration_contact_phone: 'preregistration.contact.phone',
+  mosip_view_document_rules: 'mosip.view.document.rules',
 };
 
 export const DASHBOARD_RESPONSE_KEYS = {

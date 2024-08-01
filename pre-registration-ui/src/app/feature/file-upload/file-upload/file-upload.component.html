@@ -11,15 +11,17 @@
       <span>
         (
         <span *ngFor="let dataCaptureLang of dataCaptureLanguagesLabels;index as labelsIndex">
-          <span [dir]="userPrefLanguageDir">&nbsp;{{dataCaptureLang}}&nbsp;</span>
+          <span [dir]="userPrefLanguageDir">&nbsp;{{dataCaptureLang}} &nbsp;</span>
         </span>
-        )
+        )&nbsp;&nbsp;&nbsp;&nbsp;
+        <a *ngIf="docUrl" href={{docUrl}} target="_blank" class="small-font">View Document Rules</a>
       </span>
     </header>
     <p></p>
     <span class="readOnly" *ngIf="readOnlyMode">
       ( {{ demographicLabels.read_only_message }} )
     </span>
+
     <hr />
   </div>
   <div class="file-upload__message">

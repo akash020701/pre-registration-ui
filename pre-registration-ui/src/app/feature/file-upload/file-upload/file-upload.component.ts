@@ -63,6 +63,9 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   ltrLangs = this.config
     .getConfigByKey(appConstants.CONFIG_KEYS.mosip_left_to_right_orientation)
     .split(",");
+  docUrl = this.config
+        .getConfigByKey(appConstants.CONFIG_KEYS.mosip_view_document_rules);
+
   LOD: DocumentCategory[] = [];
   fileIndex: number = -1;
   documentLabels: any;
@@ -125,7 +128,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     this.translate.use(this.userPrefLanguage);
   }
 
-  async ngOnInit() { 
+  async ngOnInit() {
     this.getPrimaryLabels(this.userPrefLanguage);
     if (this.ltrLangs.includes(this.userPrefLanguage)) {
       this.userPrefLanguageDir = "ltr";
