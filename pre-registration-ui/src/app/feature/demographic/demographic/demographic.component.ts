@@ -216,12 +216,29 @@ export class DemographicComponent
         const searchCtrlId = controlId + "_search";
         // load the initial list
         this.filteredSelectOptions[controlId].next(this.selectOptionsDataArray[`${controlId}`]);
-        // listen for search field value changes
+        if (controlId != 'countryOfBirth') {
         this.userForm.controls[`${searchCtrlId}`].valueChanges
           .pipe(takeUntil(this._onDestroy))
           .subscribe(async () => {
             this.searchInDropdown(controlId);
           });
+        }
+        // Special handling for dependent dropdown 'countryOfBirth'
+          if (controlId === 'statusInBelize') {
+            this.userForm.controls[controlId].valueChanges
+              .pipe(takeUntil(this._onDestroy))
+              .subscribe((selectedValue) => {
+                this.loadDependentDropdownOptions(selectedValue);
+              });
+          }
+        // Special handling for searching in 'countryOfBirth'
+          if (controlId === 'countryOfBirth') {
+            this.userForm.controls[`${searchCtrlId}`].valueChanges
+              .pipe(takeUntil(this._onDestroy))
+              .subscribe(async () => {
+                this.searchCountryOfBirth(controlId);
+              });
+          }
       }  
     });
     this.checkToShowLangChangeBtn();
@@ -229,6 +246,30 @@ export class DemographicComponent
     this.primaryuserForm = true;
   }
 
+  loadDependentDropdownOptions(selectedValue: string): void {
+    const selectData = this.selectOptionsDataArray['countryOfBirth'];        
+   if(selectedValue === 'BB') {
+     this.filteredSelectOptions['countryOfBirth'].next(selectData.filter(item => item.valueCode === "BLZ").slice());
+     return;
+   } else{
+     this.filteredSelectOptions['countryOfBirth'].next(selectData.filter(item => item.valueCode != "BLZ").slice());
+     return;
+   }
+ }
+
+  protected searchCountryOfBirth(controlId: string) {
+    if (this["userForm"].controls['statusInBelize'].value != 'BB') {
+      const selectData = this.selectOptionsDataArray[`${controlId}`];
+       // get the search keyword
+       const searchCtrlId = controlId + "_search";
+       let search = this.userForm.controls[`${searchCtrlId}`].value;
+       search = search.toLowerCase();
+       const filtered = selectData.filter(option => option.valueName.toLowerCase().indexOf(search) === 0);
+       this.filteredSelectOptions[controlId].next(filtered.filter(item => item.valueCode != "BLZ").slice());
+       return;
+    }
+  }
+     
   ngAfterViewInit() {
    this.setInitialValue();
   }
@@ -254,7 +295,7 @@ export class DemographicComponent
       const searchCtrlId = controlId + "_search";
       let search = this.userForm.controls[`${searchCtrlId}`].value;
       const selectData = this.selectOptionsDataArray[`${controlId}`];
-      if (!search) {
+      if (!search ) {
         this.filteredSelectOptions[controlId].next(selectData.slice());
         return;
       } 
@@ -827,7 +868,9 @@ export class DemographicComponent
               this.userForm.controls[`${controlId}`].setValue(firstValue);
             }
           }
+          if(controlId != 'countryOfBirth')
           this.searchInDropdown(controlId);
+
           this.resetLocationFields(controlId);
           //console.log(`done`);
           return;
