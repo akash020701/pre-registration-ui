@@ -216,6 +216,7 @@ export class DemographicComponent
         const searchCtrlId = controlId + "_search";
         // load the initial list
         this.filteredSelectOptions[controlId].next(this.selectOptionsDataArray[`${controlId}`]);
+       // listen for search field value changes
         if (controlId != 'countryOfBirth') {
         this.userForm.controls[`${searchCtrlId}`].valueChanges
           .pipe(takeUntil(this._onDestroy))
