@@ -148,7 +148,20 @@ export class DemographicComponent
   @ViewChild('singleSelect') singleSelect: MatSelect;
   /* Subject that emits when the component has been destroyed. */
   protected _onDestroy = new Subject<void>();
- 
+
+  translations: any = {
+     eng: {
+      "Citizenship Details": "Citizenship Details",
+      "Address and Contact Details": "Address and Contact Details",
+      "Personal Details": "Personal Details"
+     },
+     spa: {
+       "Citizenship Details": "Detalles de Ciudadanía",
+       "Address and Contact Details": "Detalles de Dirección y Contacto",
+       "Personal Details": "Detalles Personales"
+     }
+   };
+
   /**
    * @description Creates an instance of DemographicComponent.
    * @param {Router} router
@@ -1885,6 +1898,14 @@ export class DemographicComponent
     //return message;
   }
 
+
+getTranslation(alignmentGroup: string) {
+  if (this.userPrefLanguage === 'eng') {
+    return this.translations['eng'][alignmentGroup];
+  } else {
+    return this.translations['spa'][alignmentGroup];
+  }
+}
   /**
    * @description After sumission of the form, the user is route to file-upload or preview page.
    *

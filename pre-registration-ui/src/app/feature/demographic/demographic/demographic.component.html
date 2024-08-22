@@ -25,6 +25,12 @@
         <form [formGroup]="userForm" class="user__form">
           <!-- Create as rows as many as alignmentGroups in UI specs -->
           <span *ngFor="let alignmentGroup of alignmentGroups">
+            <div class="alignmentGroupContainer">
+             <span>
+              <div class="alignmentGroupLabel">
+              <mat-label>{{ getTranslation(alignmentGroup) }}</mat-label>
+            </div>
+            </span>
             <div class="rowContainer">
               <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                 <div class="fieldContainer" *ngIf="field.isVisible == true">
@@ -308,6 +314,7 @@
                   </div>
                 </div>
               </span>
+            </div>
             </div>
           </span>
         </form>

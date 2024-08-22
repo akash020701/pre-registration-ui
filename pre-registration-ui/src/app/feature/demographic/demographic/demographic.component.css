@@ -299,8 +299,20 @@ mat-icon {
 } 
 
 .required-annotation {
-  color: white;
+  color: red;
   margin-left: 3px;
+}
+.alignmentGroupContainer {
+  border: 2px solid black;
+  padding: 10px;
+  margin-bottom: 40px;
+  border-radius: 10px;
+}
+.alignmentGroupLabel {
+  font-weight: bold;
+  color: black;
+  margin-bottom: 20px;
+  font-size: 16px;
 }
 
 @media (max-width: 798px) {
