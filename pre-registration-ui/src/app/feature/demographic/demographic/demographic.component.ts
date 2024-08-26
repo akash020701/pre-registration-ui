@@ -153,12 +153,14 @@ export class DemographicComponent
      eng: {
       "Citizenship Details": "Citizenship Details",
       "Address and Contact Details": "Address and Contact Details",
-      "Personal Details": "Personal Details"
+      "Personal Details": "Personal Details",
+      "Guardian Details": "Guardian Details"
      },
      spa: {
        "Citizenship Details": "Detalles de Ciudadanía",
        "Address and Contact Details": "Detalles de Dirección y Contacto",
-       "Personal Details": "Detalles Personales"
+       "Personal Details": "Detalles Personales",
+       "Guardian Details": "Detalles del tutor"
      }
    };
 
@@ -237,7 +239,7 @@ export class DemographicComponent
             this.searchInDropdown(controlId);
           });
         }
-        // Special handling for dependent dropdown 'countryOfBirth'
+       // Special handling for dependent dropdown 'countryOfBirth'
           if (controlId === 'statusInBelize') {
             this.userForm.controls[controlId].valueChanges
               .pipe(takeUntil(this._onDestroy))
@@ -245,7 +247,7 @@ export class DemographicComponent
                 this.loadDependentDropdownOptions(selectedValue);
               });
           }
-        // Special handling for searching in 'countryOfBirth'
+       // Special handling for searching in 'countryOfBirth'
           if (controlId === 'countryOfBirth') {
             this.userForm.controls[`${searchCtrlId}`].valueChanges
               .pipe(takeUntil(this._onDestroy))
@@ -283,7 +285,6 @@ export class DemographicComponent
        return;
     }
   }
-     
   ngAfterViewInit() {
    this.setInitialValue();
   }
@@ -1897,7 +1898,6 @@ export class DemographicComponent
     });
     //return message;
   }
-
 
 getTranslation(alignmentGroup: string) {
   if (this.userPrefLanguage === 'eng') {

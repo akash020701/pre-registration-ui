@@ -466,7 +466,12 @@ export class DashBoardComponent implements OnInit, OnDestroy {
      const dataCaptureLangsFromSession = this.userPreferredLangCode
      console.log(`dataCaptureLangsFromSession: ${dataCaptureLangsFromSession}`);
      localStorage.setItem(appConstants.DATA_CAPTURE_LANGUAGES, JSON.stringify([this.userPreferredLangCode]));
-     if (dataCaptureLangsFromSession) {
+     
+     let dataCaptureLanguagesLabels = Utils.getLanguageLabels(localStorage.getItem(appConstants.DATA_CAPTURE_LANGUAGES), 
+     localStorage.getItem(appConstants.LANGUAGE_CODE_VALUES));
+     localStorage.setItem(appConstants.DATA_CAPTURE_LANGUAGE_LABELS, JSON.stringify(dataCaptureLanguagesLabels));
+     
+      if (dataCaptureLangsFromSession) {
       localStorage.setItem(appConstants.MODIFY_USER, "false");
       localStorage.setItem(appConstants.NEW_APPLICANT, "true");
       if (this.loginId) {
