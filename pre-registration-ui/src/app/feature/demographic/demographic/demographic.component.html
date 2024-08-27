@@ -25,7 +25,7 @@
         <form [formGroup]="userForm" class="user__form">
           <!-- Create as rows as many as alignmentGroups in UI specs -->
           <span *ngFor="let alignmentGroup of alignmentGroups">
-            <div class="alignmentGroupContainer">
+            <div class="alignmentGroupContainer" *ngIf="getTranslation(alignmentGroup) !=null">
              <span>
               <div class="alignmentGroupLabel">
               <mat-label>{{ getTranslation(alignmentGroup) }}</mat-label>

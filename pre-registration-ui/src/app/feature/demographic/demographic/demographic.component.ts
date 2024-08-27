@@ -1899,7 +1899,10 @@ export class DemographicComponent
     //return message;
   }
 
-getTranslation(alignmentGroup: string) {
+private getTranslation(alignmentGroup: string) {
+  if (alignmentGroup === 'Guardian Details' && (Number(this.currentAge) > 16 || this.currentAge =="")){
+    return
+  }
   if (this.userPrefLanguage === 'eng') {
     return this.translations['eng'][alignmentGroup];
   } else {
